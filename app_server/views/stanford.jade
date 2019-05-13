@@ -1,0 +1,304 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title
+      | Stanford University
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no', name='viewport')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(type='text/javascript', src='js/tabs.js')
+    
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css', rel='stylesheet')
+    
+    link(href='/assets/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/assets/css/paper-dashboard.css?v=2.0.0', rel='stylesheet')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js')
+    script(src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js')
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+
+
+    body
+    .wrapper
+      .sidebar(data-color='white', data-active-color='danger')
+        .logo
+          .logo-image-big
+            img(src='assets/img/logo1.png')
+        .sidebar-wrapper
+          ul.nav
+            li.active
+              a(href='/')
+                i.nc-icon.nc-bank
+                p Dashboard
+            li
+              a(href='/geomap')
+                i.nc-icon.nc-globe-2
+                p Geomap
+
+            li
+              a(href='/ranking')
+                i.nc-icon.nc-chart-bar-32
+                p Ranking
+      #dashboard
+        .main-panel  
+          nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+            .container-fluid
+              .navbar-wrapper
+                h5(style='margin-top: 15px') Stanford University
+          .content
+            .row
+                .col-md-12
+                    .card
+                        .card-header
+                            h5.card-title About Stanford
+                            p.card-category A place for learning, discovery, innovation, expression and discourse
+                        .card-body
+                            h6 Introduction
+                            p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stanford University is a private institution that was founded in 1885. It has a total undergraduate enrollment of <strong>7,062</strong>, its setting is suburban, and the campus size is <strong>8,180</strong> acres. It utilizes a quarter-based academic calendar. Stanford University's ranking in the 2019 edition of Best Colleges is National Universities, <strong>7</strong>. Its tuition and fees are <strong>$51,354</strong> (2018-19).
+                            h6 2019 Rankings
+                            p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#7</strong> in National Universities <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#1</strong> in Best Colleges for Veterans <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#7</strong> in Best Undergraduate Teaching
+                            //- p Stanford University is a private research university in Stanford, California. Stanford is known for its academic strength, wealth, proximity to Silicon Valley, and ranking as one of the world's top universities.
+                            //- h6 Teaching and Learning
+                            //- p Full-time undergraduate tuition was <strong>$42,690</strong> for 2013–2014. Stanford's admission process is need-blind for US citizens and permanent residents; while it is not need-blind for international students, 64% are on need-based aid, with an average aid package of <strong>$31,411</strong>. In 2012–13, the university awarded <strong>$126</strong> million in need-based financial aid to <strong>3,485</strong> students, with an average aid package of <strong>$40,460</strong>. Eighty percent of students receive some form of financial aid. Stanford has a no-loan policy. For undergraduates admitted in 2015, Stanford waives tuition, room, and board for most families with incomes below <strong>$65,000</strong>, and most families with incomes below <strong>$125,000</strong> are not required to pay tuition; those with incomes up to <strong>$150,000</strong> may have tuition significantly reduced. <strong>17%</strong> of students receive Pell Grants, a common measure of low-income students at a college.
+            .row
+                .col-md-4
+                    .card
+                        .card-header
+                            h6.card-title Undergraduate Gender Diversity Breakdown
+                            p.card-category Total matriculated undergraduate students: 7,032
+                        .card-body
+                            #piechart(style='width: 285px; margin-left: -15px')
+                .col-md-4
+                    .card
+                        .card-header
+                            h6.card-title Undergraduate Ethnic Diversity Breakdown
+                            p.card-category Total matriculated undergraduate students: 7,032
+                        .card-body
+                            #donutchart(style='width: 285px; margin-left: -15px; height: 200px;')
+                .col-md-4
+                    .card
+                        .card-header
+                            h6.card-title Age of Students at Stanford University
+                            p.card-category Total matriculated undergraduate students: 7,032
+                        .card-body
+                            #piechart1(style='width: 285px; margin-left: -15px; height: 200px;')
+            .row
+                .col-md-6
+                    .card
+                        .card-header
+                            h6.card-title Financial Aid
+                            p.card-category At Stanford University, 48 percent of full-time undergraduates receive some kind of need-based financial aid, and the average need-based scholarship or grant award is $50,500.
+                        .card-body
+                            #columnchart_values(style='margin-left: -15px; height: 310px;')
+                .col-md-6
+                    .card
+                        .card-header
+                            h6.card-title Academic Life
+                            p.card-category The most popular majors at Stanford University include: Engineering; Multi/Interdisciplinary Studies; Computer and Information Sciences and Support Services; Social Sciences; and Biological and Biomedical Sciences. 
+                        .card-body
+                            #chart_div(style='width: 445px; margin-left: -15px; height: 295px;')
+
+
+                script.
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                    ['Gender', 'percentage'],
+                    ['male', 52],
+                    ['female', 48]
+                    ]);
+                    var options = {
+                    title: 'Gender Diversity',
+                    legend: 'right',
+                    pieSliceText: 'label'
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(data, options);
+                    }
+
+                script.
+                    var dataField = JSON.parse(("#{race_stanford}").replace(/&quot;/g,'"'));
+                    console.log(dataField);
+                    var race = [];
+                    var percentage = [];
+
+                    for(var i = 0; i < dataField.length; i++) {
+                    race.push(dataField[i].Race);
+                    percentage.push(dataField[i].Percentage);
+                    }
+
+                    var Combined = new Array();
+                    Combined[0] = ['race', 'percentage'];
+                    for (var i = 0; i < dataField.length; i++) {
+                        var pct = parseFloat(percentage[i]);
+                        Combined[i + 1] = [ race[i], pct ];
+                        }
+                    //console.log(Combined);
+                    google.charts.load("current", {packages:["corechart"]});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = google.visualization.arrayToDataTable(Combined,false);
+                    var options = {
+                    legend: 'right',
+                    title: 'Undergraduate Ethnic Diversity',
+                    pieHole: 0.3
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    chart.draw(data, options);
+                    }
+                script.
+                    var dataField = JSON.parse(("#{age_stanford}").replace(/&quot;/g,'"'));
+                    console.log(dataField);
+                    var age = [];
+                    var percentage = [];
+
+                    for(var i = 0; i < dataField.length; i++) {
+                    age.push(dataField[i].Age);
+                    percentage.push(dataField[i].Percentage);
+                    }
+
+                    var Combined1 = new Array();
+                    Combined1[0] = ['age', 'percentage'];
+                    for (var i = 0; i < dataField.length; i++) {
+                        var pct = parseFloat(percentage[i]);
+                        Combined1[i + 1] = [ age[i], pct ];
+                        }
+                    google.charts.load("current", {packages:["corechart"]});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = google.visualization.arrayToDataTable(Combined1, false);
+                    var options = {
+                    legend: 'right',
+                    title: 'Age of Students at Stanford University'
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+                    chart.draw(data, options);
+                    }
+                script.
+                    var dataField = JSON.parse(("#{stanfordfinance}").replace(/&quot;/g,'"'));
+                    console.log(dataField);
+                    dataField.sort((a,b) =>parseFloat(b.percentage) - parseFloat(a.percentage));
+                    var type = [];
+                    var percentage = [];
+                    var style = [];
+
+                    for(var i = 0; i < dataField.length; i++) {
+                    type.push(dataField[i].Type);
+                    percentage.push(dataField[i].percentage);
+                    style.push(dataField[i].style)
+                    }
+
+                    var Combined2 = new Array();
+                    Combined2[0] = ["Type", "percentage", {role: "style"}];
+                    for (var i = 0; i < dataField.length; i++) {
+                        var pct = parseFloat(percentage[i]);
+                        Combined2[i + 1] = [ type[i], pct, style[i] ];
+                        }
+                    console.log(Combined2);
+                    google.charts.load("current", {packages:['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = google.visualization.arrayToDataTable(Combined2,false);
+                    var view = new google.visualization.DataView(data);
+                    view.setColumns([0, 1,
+                    { calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation" },
+                    2]);
+                    var options = {
+                    title: "Financial aid statistics",
+                    width: 445,
+                    //- height: 400,
+                    bar: {groupWidth: "10px"},
+                    legend: { position: "none" },
+                    hAxis: {
+                    textStyle: {
+                    fontSize: 8
+                    }
+                    }
+                    };
+                    var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+                    chart.draw(view, options);
+                    }
+                script.
+                    var dataField = JSON.parse(("#{stanfordacademic}").replace(/&quot;/g,'"'));
+                    dataField.sort((a,b) =>parseFloat(b.Percentage) - parseFloat(a.Percentage));
+                    var majors = [];
+                    var percentage = [];
+                    var style = [];
+
+                    for(var i = 0; i < dataField.length; i++) {
+                    majors.push(dataField[i].Majors);
+                    percentage.push(dataField[i].Percentage);
+                    style.push(dataField[i].style)
+                    }
+
+                    var Combined3 = new Array();
+                    Combined3[0] = ["Majors", "percentage", {role: "style"}];
+                    for (var i = 0; i < dataField.length; i++) {
+                        var pct = parseFloat(percentage[i]);
+                        Combined3[i + 1] = [ majors[i], pct, style[i] ];
+                        }
+                    google.charts.load('current', {packages: ['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+
+                        var data = google.visualization.arrayToDataTable(Combined3, false);
+
+                        var view = new google.visualization.DataView(data);
+                        view.setColumns([0, 1,
+                                        { calc: "stringify",
+                                          sourceColumn: 1,
+                                          type: "string",
+                                          role: "annotation" },
+                                        2]);
+                        var options = {
+                            title: 'Five most popular majors for 2017 graduates',
+                            bar: {groupWidth: '70%'},
+                            hAxis: {
+                            title: 'Percentage',
+                            minValue: 0,
+                            maxValue: 20
+                            },
+                            vAxis: {
+                            textStyle: {
+                            fontSize: 8
+                            }
+                            },
+                            legend: {position: 'none'}
+                        };
+
+                        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                        chart.draw(view, options);
+                        }
+
+    // Core JS Files
+    script(src='../assets/js/core/jquery.min.js')
+    script(src='../assets/js/core/popper.min.js')
+    script(src='../assets/js/core/bootstrap.min.js')
+    script(src='../assets/js/plugins/perfecst-scrollbar.jquery.min.js')
+    // Google Maps Plugin
+    script(src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+    script(src='../assets/js/paper-dashboard.min.js?v=2.0.0', type='text/javascript')
+    script(src='../assets/demo/demo.js')
+    script.
+      $(document).ready(function() {
+      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+      //demo.initChartsPages();
+      });
+                    
+
+
+
+
+
+
+
+
+

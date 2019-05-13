@@ -1,0 +1,42 @@
+﻿[
+	{
+		"University": "Harvard University",
+		"Score": 100
+	},
+	{
+		"University": "MIT",
+		"Score": 91.67
+	},
+	{
+		"University": "Stanford University",
+		"Score": 89.5
+	},
+	{
+		"University": "California Institute of Technology",
+		"Score": 85.21
+	},
+	{
+		"University": "Princeton University",
+		"Score": 82.5
+	},
+	{
+		"University": "Yale University",
+		"Score": 79.14
+	},
+	{
+		"University": "Columbia University",
+		"Score": 78.86
+	},
+	{
+		"University": "UC Berkeley",
+		"Score": 78.55
+	},
+	{
+		"University": "University of Chicago",
+		"Score": 73.81
+	},
+	{
+		"University": "Cornell University",
+		"Score": 73.69
+	}
+]

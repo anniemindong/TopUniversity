@@ -1,0 +1,30 @@
+[
+  {
+    "Region": "Sub-Saharan Africa",
+    "Percentage": 3.4
+  },
+  {
+    "Region": "Asia",
+    "Percentage": 64.3
+  },
+  {
+    "Region": "Europe",
+    "Percentage": 9.3
+  },
+  {
+    "Region": "Latin America & Caribbean",
+    "Percentage": 8.9
+  },
+  {
+    "Region": "Middle East & North Africa",
+    "Percentage": 10.6
+  },
+  {
+    "Region": "North America",
+    "Percentage": 2.8
+  },
+  {
+    "Region": "Stateless",
+    "Percentage": 3.4
+  }
+]

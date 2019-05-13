@@ -1,0 +1,421 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title
+      | Top University
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no', name='viewport')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(type='text/javascript', src='js/tabs.js')
+    script(type='text/javascript', src='js/map.js')
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css', rel='stylesheet')
+    
+    link(href='/assets/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/assets/css/paper-dashboard.css?v=2.0.0', rel='stylesheet')
+    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js')
+    //script(src = 'https://cdn.jsdelivr.net/npm/chart.js@2.8.0')
+    script(src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js')
+
+    script(scr='https://www.gstatic.com/charts/loader.js')
+
+    //link(href='http://getbootstrap.com.vn/examples/equal-height-columns/equal-height-columns.css', rel='stylesheet') 
+
+    
+  body
+    .wrapper
+      .sidebar(data-color='white', data-active-color='danger')
+        .logo
+          .logo-image-big
+            img(src='assets/img/logo1.png')
+        .sidebar-wrapper#tabs
+          ul.nav
+            li.active
+              a(href='#dashboard')
+                i.nc-icon.nc-bank
+                p Dashboard
+            li
+              a(href='/geomap')
+                i.nc-icon.nc-globe-2
+                p Geomap
+            //- li
+            //-   a(href='/comparison.jade')
+            //-     i.nc-icon.nc-air-baloon
+            //-     p Comparison
+            li
+              a(href='/ranking')
+                i.nc-icon.nc-chart-bar-32
+                p Ranking
+      #dashboard
+        .main-panel  
+          nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+            .container-fluid
+              .navbar-wrapper
+                .navbar-toggle
+                  button.navbar-toggler(type='button')
+                    span.navbar-toggler-bar.bar1
+                    span.navbar-toggler-bar.bar2
+                    span.navbar-toggler-bar.bar3
+                a.navbar-brand(href='#pablo') Dashboard
+              button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navigation', aria-controls='navigation-index', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-bar.navbar-kebab
+                span.navbar-toggler-bar.navbar-kebab
+                span.navbar-toggler-bar.navbar-kebab
+              //- #navigation.collapse.navbar-collapse.justify-content-end
+              //-   form
+              //-     .input-group.no-border
+              //-       input.form-control(type='text', value='', placeholder='Search...')
+              //-       .input-group-append
+              //-         .input-group-text
+              //-           i.nc-icon.nc-zoom-split
+          // End Navbar
+          .content
+            .row.row-eq-height
+              .col-md-4
+                .card
+                  .card-header
+                    h5.card-title Top 5 countries with most foreign students enrollment
+                    p.card-category 2018-2019
+                  .card-body
+                    canvas#bar-chart(width='350', height='250')
+              .col-md-5
+                .card
+                  .card-header
+                    h5.card-title Field of study from International Students in US
+                    p.card-category 2018-2019
+                  .card-body
+                    canvas#pie-chart(width='400', height='250')
+              .col-md-3
+                .card
+                  .card-header
+                    h5 Overall Score of Top 10 Universities of US
+                    p.card-category 2018-2019
+                  .card-body
+                    canvas#bar-chart-horizontal(width='250', height='250')
+            .row
+              .col-md-5
+                .card
+                  .card-header
+                    h5.card-title International Students in US from Different Continents
+                    p.card-category 2018-2019
+                  .card-body
+                    canvas#doughnut-chart(width='400', height='250')
+              .col-md-4
+                .card
+                  .card-header
+                    h5.card-title International Students from China in USA
+                    p.card-category 2007-2017
+                  .card-body
+                    canvas#line-chart(width='400', height='250')
+              
+              .col-md-3
+                  .card
+                    .card-header
+                      h5 Top Picks For you
+                    .card-body
+                      ul.nav
+                        li.nav-item
+                          span
+                            i.nc-icon.nc-glasses-2
+                              a(href='/harvard', style='font-family: Sans-serif;text-decoration: none; margin-left: 7px') Harvard University
+                        li.nav-item
+                          span
+                            i.nc-icon.nc-favourite-28
+                              a(href='/yale', style='font-family: Sans-serif;text-decoration: none; margin-left: 7px') Yale University
+                        li.nav-item
+                          span
+                            i.nc-icon.nc-globe-2
+                              a(href='/stanford', style='font-family: Sans-serif;text-decoration: none; margin-left: 7px') Stanford University
+                        li.nav-item
+                          span
+                            i.nc-icon.nc-bulb-63
+                              a(href='/comparison', style='font-family: Sans-serif;color: orange; text-decoration: none; margin-left: 7px') Check out Comparison
+
+                   
+                  h5 Find Your Dream School's Rank
+      
+                  
+                  label(for='school') School Name
+                  input#school.form-control(name='uName', placeholder='Enter school')
+                  large#schoolHelp.form-text.text-danger
+                  //small#schoolHelp.alert.alert-warning(role='alert')
+                  button#uButton.btn.btn-primary.btn-small(type='submit') Submit
+
+   
+              script.
+                $('#uButton').click(function(e){
+                    //e.preventDefault();
+                    $.ajax({
+                        url:'/findU',
+                        type:'post',
+                        data:$('#school').serialize(),
+                        success:function(msg){
+                            //- console.log("something is here! Message received!");
+                            //- console.log(msg)
+                            //whatever you wanna do after the form is successfully submitted
+
+                            document.getElementById("schoolHelp").innerHTML = msg;
+                        }
+                    });
+                });
+
+                $('.upload-block input').change(function() {
+                  $('#upload-btn').prop(
+                      'disabled',
+                      !($('.upload-block :checked').length && $('#InputFile').val()));
+                });
+
+                var data = JSON.parse(("#{top10countries}").replace(/&quot;/g,'"'));
+                //console.log(data);
+              
+                var country = [];
+                var student = [];
+
+                for(var i = 0; i < 5; i++) {
+                  country.push(data[i].Country);
+                  student.push(data[i].ForeignStudents);
+                }
+                //- console.log(country);
+                //- console.log(student);
+
+
+                var BarChart = new Chart(document.getElementById("bar-chart"), {
+                  type: 'bar',
+                  data: {
+                    labels: country,
+                    datasets: [{
+                      data: student,
+                      label: "International Students",
+                      backgroundColor: ["#c45850", "#c45850","#1E90FF","#1E90FF","#1E90FF"]
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: { display: false },
+                    title: {
+                      display: true,
+                      //text: 'Top 5 countries for foreign student enrollment'
+                    },
+                    scales: {
+                      xAxes: [{
+                        ticks: {
+                          fontSize: 10
+                        }
+                      }]
+                    },
+                    plugins: {
+                      labels: {
+                        render: 'value',
+                        fontColor: 'grey',
+                        fontSize: 9,
+                        overlap: false
+                      }
+                    }
+                  }
+                });
+
+                var dataField = JSON.parse(("#{top10field}").replace(/&quot;/g,'"'));
+                //console.log(dataField);
+              
+                var field = [];
+                var studentField = [];
+
+                for(var i = 0; i < dataField.length; i++) {
+                  field.push(dataField[i].Field);
+                  studentField.push(dataField[i].Students);
+                }
+                //- console.log(field);
+                //- console.log(studentField);
+
+                var PieChart = new Chart(document.getElementById("pie-chart"), {
+                  type: 'pie',
+                  data: {
+                    labels: field,
+                    datasets: [{
+                      data: studentField,
+                      label: "International Students",
+                      backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#228B22", "#20B2AA","#1E90FF","#7B68EE","#BA55D3"]
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title:  {
+                      display: false,
+                      text: 'Total number of foreign students from all places of origin by field of study'
+                    },
+                    plugins: {
+                      labels: {
+                        render: 'percentage',
+                        fontColor: 'white',
+                        fontSize: 13,
+                        overlap: false
+                      }
+                    },
+                    legend: {
+                      position: 'left',
+  
+                      labels: {
+                        fontSize: 11
+                      }
+                    }
+                  }
+                });
+
+                
+
+                var dataChina = JSON.parse(("#{studentChina}").replace(/&quot;/g,'"'));
+                //console.log(dataChina);
+              
+                var year = [];
+                var studentChina = [];
+                dataChina.sort((a,b) => a.Year-b.Year);
+                for(var i = 0; i < dataField.length; i++) {
+                  year.push(dataChina[i].Year);
+                  studentChina.push(dataChina[i].Students);
+                }
+                //- console.log(year);
+                //- console.log(studentChina);
+
+                var LineChart = new Chart(document.getElementById("line-chart"), {
+                  type: 'line',
+                  data: {
+                    labels: year,
+                    datasets: [{
+                      data: studentChina,
+                      label: "International Students from China",
+                      borderColor: "#3e95cd",
+                      fill: false
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                      display: false,
+                      text: 'International Students from China in USA'
+                    }
+                  }
+                  
+                });
+
+                var dataRegion = JSON.parse(("#{studentRegion}").replace(/&quot;/g,'"'));
+                //var dataRegion = dataRegionTemp.replace('&amp;','"');
+                //console.log(dataRegion);
+              
+                var region = [];
+                var percentage = [];
+                dataRegion.sort((a,b) => a.Year-b.Year);
+                for(var i = 0; i < dataRegion.length; i++) {
+                  region.push(dataRegion[i].Region.replace('&amp;',''));
+                  percentage.push(dataRegion[i].Percentage);
+                }
+                //- console.log(region);
+                //- console.log(percentage);
+
+                var doughnutChart = new Chart(document.getElementById("doughnut-chart"), {
+                  type: 'doughnut',
+                  data: {
+                    labels: region,
+                    datasets: [{
+                      data: percentage,
+                      label: "Region",
+                      backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#F08080","#F0E68C"],
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                      display: false,
+                      text: 'International Students in USA from Different Continents'
+                    },
+                    plugins: {
+                      labels: {
+                        render: 'percentage',
+                        fontSize: 13,
+                        fontColor: 'white',
+                        overlap: false
+                      }
+                    }
+                  }
+                });
+
+                var score = JSON.parse(("#{universityScore}").replace(/&quot;/g,'"'));
+                //console.log(score);
+
+                var university = [];
+                var totalScore = [];
+                score.sort((a,b) => parseFloat(b.Score)-parseFloat(a.Score));
+                for(var i = 0; i < score.length; i++) {
+                  university.push(score[i].University);
+                  totalScore.push(parseFloat(score[i].Score));
+                }
+                //console.log(university);
+                //console.log(totalScore);
+
+                var BarChartH = new Chart(document.getElementById("bar-chart-horizontal"), {
+                  type: 'horizontalBar',
+                  data: {
+                    labels: university,
+                    datasets: [{
+                      data: totalScore,
+                      label: "Total Score",
+                      backgroundColor: ["#f47d42", "#f47d42","#f47d42","#f47d42","#f47d42","#999966","#999966","#999966","#999966","#999966"],
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: { display: false },
+                    title: {
+                      display: false,
+                      //text: 'Top 5 countries for foreign student enrollment'
+                    },
+                    scales: {
+                      xAxes: [{
+                        ticks: {
+                          fontSize: 10
+                        }
+                      }]
+                    },
+                    plugins: {
+                      labels: {
+                        render: 'value',
+                        fontColor: 'grey',
+                        fontSize: 9,
+                        overlap: false
+                      }
+                    }
+                  }
+                });
+                //print worldRank
+                //- var rank = JSON.parse(("#{worldRank}").replace(/&quot;/g,'"'));
+                //- console.log(rank);
+    // Core JS Files
+    script(src='../assets/js/core/jquery.min.js')
+    script(src='../assets/js/core/popper.min.js')
+    script(src='../assets/js/core/bootstrap.min.js')
+    script(src='../assets/js/plugins/perfect-scrollbar.jquery.min.js')
+    // Google Maps Plugin
+    script(src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+    //- // Chart JS
+    //- script(src='../assets/js/plugins/chartjs.min.js')
+    // Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc
+    script(src='../assets/js/paper-dashboard.min.js?v=2.0.0', type='text/javascript')
+    // Paper Dashboard DEMO methods, don't include it in your project!
+    script(src='../assets/demo/demo.js')
+    script.
+      $(document).ready(function() {
+      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+      //demo.initChartsPages();
+      });

@@ -1,0 +1,226 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title
+      | Yale University
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no', name='viewport')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(type='text/javascript', src='js/tabs.js')
+    
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css', rel='stylesheet')
+    
+    link(href='/assets/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/assets/css/paper-dashboard.css?v=2.0.0', rel='stylesheet')
+    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js')
+    script(src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js')
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+
+    
+  body
+    .wrapper
+      .sidebar(data-color='white', data-active-color='danger')
+        .logo
+          .logo-image-big
+            img(src='assets/img/logo1.png')
+        .sidebar-wrapper
+          ul.nav
+            li.active
+              a(href='/')
+                i.nc-icon.nc-bank
+                p Dashboard
+            li
+              a(href='/geomap')
+                i.nc-icon.nc-globe-2
+                p Geomap
+
+            li
+              a(href='/ranking')
+                i.nc-icon.nc-chart-bar-32
+                p Ranking
+
+                
+      #dashboard
+        .main-panel  
+          nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+            .container-fluid
+              .navbar-wrapper
+                h5(style='margin-top: 15px') Yale University
+          // End Navbar
+          .content
+            .row
+              .col-md-12
+                .card
+                        .card-header
+                            h5.card-title About Yale
+                            p.card-category Light and truth
+                        .card-body
+                            p Since its founding in <strong>1701</strong>, Yale has been dedicated to expanding and sharing knowledge, inspiring innovation, and preserving cultural and scientific information for future generations. Yale’s reach is both local and international. As of October 2018, <strong>61</strong> Nobel laureates, <strong>5</strong> Fields Medalists and <strong>3</strong> Turing award winners have been affiliated with Yale University. 
+                            h6 2019 Rankings
+                            p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#1</strong> Best College for History in America <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#4</strong> College with the Best Academic in America <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#4</strong> Top Private College in America
+
+
+            .row        
+              .col-md-4
+                .card
+                  .card-header
+                    h5.card-title Gender Diversity Breakdown
+                    p.card-category 2017-2018
+                  .card-body
+                    #piechart
+                    
+              .col-md-4
+                .card
+                  .card-header
+                    h5.card-title Ethnic Diversity Breakdown
+                    p.card-category 2017-2018
+                  .card-body
+                    #piechart2
+                                
+              .col-md-4
+                .card
+                  .card-header
+                    h5.card-title Age of Students in Yale University
+                  .card-body
+                    #donutchart
+               
+            .row        
+              .col-md-12
+                .card
+                  .card-header
+                    h5.card-title International Students by School
+                  .card-body
+                    #columnchart_values
+                    p *GSAS = Graduate School of Arts and Sciences
+                    
+                    
+    script.
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+      ['Gender', 'number of students'],
+      ['male',     6472],
+      ['female',   6484]
+      ]);
+      var options = {
+      legend: 'right',
+      chartArea: {  width: "100%" },
+      pieSliceText: 'label'
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(data, options);
+      }
+                  
+    script.
+      //read data from db
+      var Results = JSON.parse(("#{yalerace}").replace(/&quot;/g,'"'));
+                //console.log(data);
+      console.log(Results);      
+
+      var Combined = new Array();
+      Combined[0] = ['Race/ethnicity', 'Percentage'];
+      for (var i = 0; i < Results.length; i++){
+        Combined[i + 1] = [ Results[i].Race, parseFloat(Results[i].Percentage)];
+      }
+      console.log(Combined);
+      
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+      var data = google.visualization.arrayToDataTable(Combined);
+      var options = {
+      legend: 'right',
+      chartArea: {  width: "100%" },
+      pieSliceText: 'label'
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+      chart.draw(data, options);
+      }
+
+
+    script.
+
+      //read data from db
+      var Results = JSON.parse(("#{yaleage}").replace(/&quot;/g,'"'));
+                //console.log(data);
+      console.log(Results);      
+
+      var CombinedAge = new Array();
+      CombinedAge[0] = ['Age', 'Percentage'];
+      for (var i = 0; i < Results.length; i++){
+        CombinedAge[i + 1] = [ Results[i].Age, parseFloat(Results[i].Percentage)];
+      }
+      console.log(Combined);
+
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+      var data = google.visualization.arrayToDataTable(CombinedAge, false);
+      var options = {        
+      title: 'Age of Students',
+      legend: 'right'
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+      chart.draw(data, options);
+      }
+
+    script.
+
+      var yale_school = JSON.parse(("#{yale_school}").replace(/&quot;/g,'"'));
+    
+      yale_school.sort((a,b) =>b.students-a.students);
+
+      var school = [];
+      var student = [];
+      for(var i = 0; i < 13; i++) {
+        school.push(yale_school[i].school);
+        student.push(yale_school[i].students);
+      }
+
+      google.charts.load("current", {packages:['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'school');
+      data.addColumn('number', 'student');
+      data.addColumn({type: 'string', role: 'style'});
+      data.addColumn({type: 'number', role: 'annotation'});
+
+      for(i = 0; i < 3; i++)
+          data.addRow([school[i], student[i], "color: #d34e32", student[i]]);
+
+      for(i = 3; i < student.length; i++)
+          data.addRow([school[i], student[i], "color: orange", student[i]]);
+
+      var options = {
+      width: 900,
+      height: 400,
+      bar: {groupWidth: "80%"},
+      chartArea: { left: 100, height:'80%' },
+      legend: { position: "none" }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("columnchart_values"));
+      chart.draw(data, options);
+      }
+
+    // Core JS Files
+    script(src='../assets/js/core/jquery.min.js')
+    script(src='../assets/js/core/popper.min.js')
+    script(src='../assets/js/core/bootstrap.min.js')
+    script(src='../assets/js/plugins/perfecst-scrollbar.jquery.min.js')
+    // Google Maps Plugin
+    script(src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+    script(src='../assets/js/paper-dashboard.min.js?v=2.0.0', type='text/javascript')
+    script(src='../assets/demo/demo.js')
+    script.
+      $(document).ready(function() {
+      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+      //demo.initChartsPages();
+      });

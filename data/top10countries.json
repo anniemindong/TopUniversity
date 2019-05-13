@@ -1,0 +1,42 @@
+[
+  {
+    "Country": "United States",
+    "ForeignStudents": 1094792
+  },
+  {
+    "Country": "United Kindom",
+    "ForeignStudents": 506480
+  },
+  {
+    "Country": "China",
+    "ForeignStudents": 489200
+  },
+  {
+    "Country": "Australia",
+    "ForeignStudents": 371885
+  },
+  {
+    "Country": "Canada",
+    "ForeignStudents": 370710
+  },
+  {
+    "Country": "France",
+    "ForeignStudents": 343386
+  },
+  {
+    "Country": "Russia",
+    "ForeignStudents": 313089
+  },
+  {
+    "Country": "Germany",
+    "ForeignStudents": 265484
+  },
+  {
+    "Country": "Japan",
+    "ForeignStudents": 188384
+  },
+  {
+    "Country": "Spain",
+    "ForeignStudents": 109522
+  }
+]

@@ -1,0 +1,196 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title
+      | Harvard University
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no', name='viewport')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(type='text/javascript', src='js/tabs.js')
+    
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css', rel='stylesheet')
+    
+    link(href='/assets/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/assets/css/paper-dashboard.css?v=2.0.0', rel='stylesheet')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js')
+    script(src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js')
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+
+    body
+    .wrapper
+      .sidebar(data-color='white', data-active-color='danger')
+        .logo
+          .logo-image-big
+            img(src='assets/img/logo1.png')
+        .sidebar-wrapper
+          ul.nav
+            li.active
+              a(href='/')
+                i.nc-icon.nc-bank
+                p Dashboard
+            li
+              a(href='/geomap')
+                i.nc-icon.nc-globe-2
+                p Geomap
+
+            li
+              a(href='/ranking')
+                i.nc-icon.nc-chart-bar-32
+                p Ranking
+      #Harvard
+        .main-panel  
+          nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+            .container-fluid
+              .navbar-wrapper
+                h5(style='margin-top: 15px') Harvard University
+          .content
+            .row
+                .col-md-12
+                    .card
+                        .card-header
+                            h5.card-title About Harvard
+                            p.card-category Christo et Ecclesiae ("For Christ and Church"), later changed to Veritas ("Truth")
+                        .card-body
+                            h6 Introduction
+                            p Harvard University is a private Ivy League research university in Cambridge, Massachusetts, with about <strong>6,700</strong>undergraduate students and about <strong>15,250</strong> postgraduate students.Established in <strong>1636</strong> and named for its first benefactor, clergyman John Harvard, Harvard is the United States' oldest institution of higher learning, and its history, influence, and wealth have made it one of the world's most prestigious universities.
+                            h6 2019 Rankings
+                            p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#3</strong> Best College in America <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#1</strong> Hardest College to Get In in America <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>#1</strong> Best College for Math in America
+            .row
+                .col-md-3
+                    .card
+                        .card-header
+                            h6.card-title Undergraduate Gender Diversity
+                            p.card-category Total undergraduate students: 6,655
+                        .card-body
+                            #piechart
+                .col-md-3
+                    .card
+                        .card-header
+                            h6.card-title Undergraduate Ethnic Diversity
+                            p.card-category Total undergraduate students: 6,655
+                        .card-body
+                            #piechart2
+                .col-md-6
+                    .card
+                        .card-header
+                            h6.card-title Enrollment of Chinese Students by School
+                        .card-body
+                            #barchart_values
+                            
+
+
+                script.
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                    ['Gender', 'percentage'],
+                    ['male', 51.5],
+                    ['female', 48.5]
+                    ]);
+                    var options = {
+                    legend: 'right',
+                    chartArea: {  width: "100%" },
+                    pieSliceText: 'label'
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(data, options);
+                    }
+
+                script.
+                  //read data from db
+                  var Results = JSON.parse(("#{harvard_ethnity}").replace(/&quot;/g,'"'));
+                            //console.log(data);
+                  //console.log(Results);      
+
+                  var Combined = new Array();
+                  Combined[0] = ['Race/ethnicity', 'Percentage'];
+                  for (var i = 0; i < Results.length; i++){
+                    Combined[i + 1] = [ Results[i].ethnity, parseFloat(Results[i].percentage)];
+                  }
+                  console.log(Combined);
+                  
+
+                  google.charts.load("current", {packages:["corechart"]});
+                  google.charts.setOnLoadCallback(drawChart);
+                  function drawChart() {
+                  var data = google.visualization.arrayToDataTable(Combined);
+                  var options = {
+                  legend: 'right',
+                  chartArea: {  width: "100%" },
+                  pieSliceText: 'label'
+                  };
+                  var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+                  chart.draw(data, options);
+                  }
+
+                script.
+                    var harvard_school = JSON.parse(("#{harvard_school}").replace(/&quot;/g,'"'));
+                    //console.log(harvard_school);
+
+                    function sorted(array, key) {
+                        return array.sort(function(a, b) {
+                            var x = a[key]; var y = b[key];
+                            return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+                        });
+                    }
+
+                    harvard_school = sorted(harvard_school, 'students');
+
+
+                    var school = [];
+                    var student = [];
+                    for(var i = 0; i < 12; i++) {
+                      school.push(harvard_school[i].school);
+                      student.push(harvard_school[i].students);
+                    }
+                    //console.log(school);
+                    //console.log(student);
+
+                    google.charts.load("current", {packages:['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'school');
+                    data.addColumn('number', 'student');
+                    data.addColumn({type: 'string', role: 'style'});
+                    data.addColumn({type: 'number', role: 'annotation'});
+
+                    for(i = 0; i < 3; i++)
+                        data.addRow([school[i], student[i], "color: #d34e32", student[i]]);
+
+                    for(i = 3; i < student.length; i++)
+                        data.addRow([school[i], student[i], "color: orange", student[i]]);
+
+                    var options = {
+                    width: 450,
+                    height: 270,
+                    bar: {groupWidth: "80%"},
+                    chartArea: { left: 100, height:'80%' },
+                    legend: { position: "none" }
+                    };
+                    var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+                    chart.draw(data, options);
+                    }
+
+
+
+    // Core JS Files
+    script(src='../assets/js/core/jquery.min.js')
+    script(src='../assets/js/core/popper.min.js')
+    script(src='../assets/js/core/bootstrap.min.js')
+    script(src='../assets/js/plugins/perfecst-scrollbar.jquery.min.js')
+    // Google Maps Plugin
+    script(src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+    script(src='../assets/js/paper-dashboard.min.js?v=2.0.0', type='text/javascript')
+    script(src='../assets/demo/demo.js')
+    script.
+      $(document).ready(function() {
+      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+      //demo.initChartsPages();
+      });

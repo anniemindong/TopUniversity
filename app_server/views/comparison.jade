@@ -1,0 +1,274 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    link(rel='icon', href='https://jscdn.com.cn/highcharts/images/favicon.ico')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+  
+    script(src='https://code.highcharts.com.cn/highcharts/highcharts.js')
+    script(src='https://code.highcharts.com.cn/highcharts/modules/exporting.js')
+    script(src='https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js')
+
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+
+   
+    script(src='https://code.highcharts.com.cn/highcharts/modules/oldie.js')
+
+  
+    title
+      | Comparison
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no', name='viewport')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(type='text/javascript', src='js/tabs.js')
+     link(rel='icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico')
+
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css', rel='stylesheet')
+    
+    link(href='/assets/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/assets/css/paper-dashboard.css?v=2.0.0', rel='stylesheet')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js')
+    script(src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js')
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+
+
+   
+    .wrapper
+      .sidebar(data-color='white', data-active-color='danger')
+        .logo
+          .logo-image-big
+            img(src='assets/img/logo1.png')
+        .sidebar-wrapper
+          ul.nav
+            li.active
+              a(href='/')
+                i.nc-icon.nc-bank
+                p Dashboard
+            li
+              a(href='/geomap')
+                i.nc-icon.nc-globe-2
+                p Geomap
+            li
+              a(href='/ranking')
+                i.nc-icon.nc-chart-bar-32
+                p Ranking
+            
+      #dashboard
+        .main-panel  
+          nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+            .container-fluid
+              .navbar-wrapper
+                h5(style='margin-top: 15px') Comparison
+          .content
+
+                .col-md-12
+                    .card
+                        .card-header
+                            h5.card-title Acceptence Rate
+                            p.card-category 2009-2019
+                        .card-body
+                            //- #container(style='width: 700px; margin-left: -15px; height: 400px;')
+                            #container(style='min-width:800px;height:400px')
+                .col-md-12
+                    .card
+                        .card-header
+                            h5.card-title Undergraduate Term Bill
+                            p.card-category 2007-2017
+                        .card-body
+                            #curve_chart(style='min-width:800px;height:400px')
+
+
+
+
+script.
+
+    //- var chart = Highcharts.chart('container', {
+    //- chart: {
+    //-     type: 'line'
+    //- },
+    //- title: {
+    //-     text: 'Acceptence Rate'
+    //- },
+    //- subtitle: {
+    //-     text: '2009-2019'
+    //- },
+    //- xAxis: {
+    //-     categories: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+    //- },
+    //- yAxis: {
+    //-     title: {
+    //-         text: 'Rate'
+    //-     }
+    //- },
+    //- plotOptions: {
+    //-     line: {
+    //-         dataLabels: {
+    //-             // 开启数据标签
+    //-             enabled: true          
+    //-         },
+    //-         // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+    //-         enableMouseTracking: false
+    //-     }
+    //- },
+    //- series: [{
+    //-     name: 'Harvard',
+    //-     data: [ 9.1, 9.7, 9.0, 7.1, 7.0, 6.9, 6.2, 5.9, 5.8, 5.9, 5.3]
+    //- }, {
+    //-     name: 'Stanford',
+    //-     data: [8.0, 7.3, 7.1, 6.6, 5.7, 5.1, 5.0, 6.6, 5.0, 4.3, 4.7]
+    //- },{
+    //-     name: 'Yale',
+    //-     data: [9.7, 8.6, 9.6, 8.3, 7.5, 7.5, 7.4, 6.8, 6.7, 6.3, 6.5]
+    //- }]
+    //- });
+                var dataChina = JSON.parse(("#{AcceptenceRate}").replace(/&quot;/g,'"'));
+                console.log(dataChina);
+              
+                var Year = [];
+                var Harvard = [];
+                var Stanford = [];
+                var Yale = [];
+                //dataChina.sort((a,b) => a.Year-b.Year);
+                for(var i = 0; i < dataChina.length; i++) {
+                  Year.push(dataChina[i].Year);
+                  Harvard.push(parseFloat(dataChina[i].Harvard));
+                  Stanford.push(parseFloat(dataChina[i].Stanford));
+                  Yale.push(parseFloat(dataChina[i].Yale));
+                }
+                console.log(Year);
+                console.log(Harvard);
+                console.log(Stanford);
+                console.log(Yale);
+                //- console.log(studentChina);
+
+                var chart = Highcharts.chart('container', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Acceptence Rate'
+                    },
+                    subtitle: {
+                        text: '2009-2019'
+                    },
+                    xAxis: {
+                        categories: Year
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Rate'
+                        }
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                // 开启数据标签
+                                enabled: true          
+                            },
+                            // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: [{
+                        name: 'Harvard',
+                        data: Harvard,
+                    }, {
+                        name: 'Stanford',
+                        data: Stanford,
+                    },{
+                        name: 'Yale',
+                        data: Yale,
+                    }]
+                });
+
+                
+
+script.
+
+    //- google.charts.load('current', {'packages':['corechart']});
+    //- google.charts.setOnLoadCallback(drawChart);
+    //- function drawChart() {
+    //- var data = google.visualization.arrayToDataTable([
+    //- ['Year', 'Yale', 'Stanford', 'Harvard'],
+    //- ['2007-08',  34530,      35089, 34998],
+    //- ['2008-09',  35300,      36360, 36173],
+    //- ['2009-10',  36500,      38238, 37012],
+    //- ['2010-11',  38300,      40172, 38415],
+    //- ['2011-12',  40500,      41564, 39851],
+    //- ['2012-13',  42300,      42225, 40866],
+    //- ['2013-14',  44000,      43683, 42292],
+    //- ['2014-15',  45800,      44757, 43938],
+    //- ['2015-16',  47600,      46320, 45278],
+    //- ['2016-17',  49480,      47940, 47074],
+    //- ['2017-18',  51400,      49617, 48949],
+    //- ['2018-19',  51400,      51354, 50420]
+    //- ]);
+    //- var options = {
+    //- title: 'Undergraduate Term Bill',
+    //- legend: { position: 'top' }
+    //- };
+    //- var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    //- chart.draw(data, options);
+    //- }
+                var Results = JSON.parse(("#{UndergraduateTermBill}").replace(/&quot;/g,'"'));
+                //console.log(dataChina);
+              
+                var Year = [];
+                var Harvard = [];
+                var Stanford = [];
+                var Yale = [];
+                //- dataChina.sort((a,b) => a.Year-b.Year);
+                //- for(var i = 0; i < dataChina.length; i++) {
+                //- Year.push(dataChina[i].Year);
+                //- Harvard.push(parseInt(dataChina[i].Harvard));
+                //- Stanford.push(parseInt(dataChina[i].Stanford));
+                //- Yale.push(parseInt(dataChina[i].Yale));
+                //- }
+                //- console.log(Year);
+                //- console.log(Harvard);
+                //- console.log(Stanford);
+                //- console.log(Yale);
+
+                var Combined = new Array();
+                Combined[0] = ['Year', 'Yale', 'Stanford', 'Harvard'];
+                for (var i = 0; i < Results.length; i++){
+                  Combined[i + 1] = [ Results[i].Year, parseInt(Results[i].Yale), parseInt(Results[i].Harvard),parseInt(Results[i].Stanford)];
+                }
+                console.log(Combined);
+                //- for(var i = 0; i < dataField.length; i++) {
+                //-   year.push(dataChina[i].Year);
+                //-   UndergraduateTermBill.push(dataChina[i].Students);
+                //- }
+                //- console.log(year);
+                //- console.log(studentChina);
+               google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                var data = google.visualization.arrayToDataTable(Combined);
+                var options = {
+                title: 'Undergraduate Term Bill',
+                legend: { position: 'top' }
+                };
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                chart.draw(data, options);
+                }
+                
+                
+
+    // Core JS Files
+    script(src='../assets/js/core/jquery.min.js')
+    script(src='../assets/js/core/popper.min.js')
+    script(src='../assets/js/core/bootstrap.min.js')
+    script(src='../assets/js/plugins/perfecst-scrollbar.jquery.min.js')
+    // Google Maps Plugin
+    script(src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+    script(src='../assets/js/paper-dashboard.min.js?v=2.0.0', type='text/javascript')
+    script(src='../assets/demo/demo.js')
+    script.
+      $(document).ready(function() {
+      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+      //demo.initChartsPages();
+      });

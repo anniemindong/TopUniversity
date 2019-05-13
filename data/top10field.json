@@ -1,0 +1,46 @@
+[
+  {
+    "Field": "Business and Management",
+    "Students": 200312
+  },
+  {
+    "Field": "Engineering",
+    "Students": 216932
+  },
+  {
+    "Field": "Other/Unspecified Subject Areas",
+    "Students": 185107
+  },
+  {
+    "Field": "Mathematics and Computer Sciences",
+    "Students": 141651
+  },
+  {
+    "Field": "Social Sciences",
+    "Students": 81304
+  },
+  {
+    "Field": "Physical and Life Sciences",
+    "Students": 75385
+  },
+  {
+    "Field": "Humanities",
+    "Students": 17664
+  },
+  {
+    "Field": "Fine and Applied Arts",
+    "Students": 59736
+  },
+  {
+    "Field": "Health Professions",
+    "Students": 33947
+  },
+  {
+    "Field": "Education",
+    "Students": 19483
+  },
+  {
+    "Field": "Agriculture",
+    "Students": 12318
+  }
+]
