@@ -1,0 +1,25 @@
+{
+  "name": "Authentication",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "body-parser": "~1.18.2",
+    "chart.js": "^2.8.0",
+    "chartjs-plugin-labels": "^1.1.0",
+    "cookie-parser": "^1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "flag-icon-css": "^3.3.0",
+    "jade": "~1.11.0",
+    "line-reader": "^0.4.0",
+    "mongodb": "^3.1.13",
+    "monk": "^6.0.6",
+    "serve-favicon": "~2.4.5"
+  }
+}
