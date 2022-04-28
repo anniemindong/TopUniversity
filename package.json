@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^2.6.4",
     "body-parser": "~1.18.2",
     "chart.js": "^2.8.0",
     "chartjs-plugin-labels": "^1.1.0",
